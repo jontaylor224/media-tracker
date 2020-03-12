@@ -15,7 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from mediaTracker.authentication.urls import urlpatterns as auth_urls
+
+from mediaTracker.books.models import Book
+from mediaTracker.media_user.models import MediaUser
+
+admin.site.register(MediaUser)
+admin.site.register(Book)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+urlpatterns += auth_urls
