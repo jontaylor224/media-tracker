@@ -16,9 +16,10 @@
 
         {% block heading %}
             <h2>Welcome {{ user.username }}!</h2>
-            <p>You have {{  }} books in your collection.</p>
+            <p>You have {{ num_of_books }} books in your collection.</p>
         {% endblock heading %}
-            
+
+        <a href="{% url 'search' %}">Search by ISBN</a>
 
     {% endif %}
 
