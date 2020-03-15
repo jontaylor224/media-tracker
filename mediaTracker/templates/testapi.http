@@ -1,20 +1,13 @@
 
 
-GET https://www.googleapis.com/books/v1/volumes?q=isbn:9780451470041 HTTP/1.1
-
-###
-
-GET https://www.googleapis.com/books/v1/volumes?q=isbn:9780812511819 HTTP/1.1
-
-
-###
-
-GET https://www.googleapis.com/books/v1/volumes?q=isbn:9780812550290 HTTP/1.1
-
-###
-
 GET https://openlibrary.org/api/books?bibkeys=isbn:9780812550290&jscmd=data&format=json HTTP/1.1
 
 ###
 
 GET https://openlibrary.org/api/books?bibkeys=isbn:9780451470041&jscmd=data&format=json HTTP/1.1
+
+###
+
+GET https://openlibrary.org/api/books?bibkeys=isbn:9780451470041&jscmd=data&format=json HTTP/1.1
+
+###

@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from mediaTracker.authentication.urls import urlpatterns as auth_urls
 from mediaTracker.books.urls import urlpatterns as book_urls
+from mediaTracker.media_user.urls import urlpatterns as user_urls
 
 from mediaTracker.books.models import Book
 from mediaTracker.media_user.models import MediaUser
@@ -30,3 +31,4 @@ urlpatterns = [
 
 urlpatterns += auth_urls
 urlpatterns += book_urls
+urlpatterns += user_urls
