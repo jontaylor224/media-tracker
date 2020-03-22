@@ -1,8 +1,13 @@
+{% extends './base.html' %}
+{% load static %}
+{% block content %}
+
 <h3>Search for book information by ISBN</h3>
 <form action="/search_results/" method="get">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Search" />
+    <input type="submit" value="Search" class="button" />
 </form>
-
-<a href="/">Home</a>
+<br>
+<a href="/" class="button">Return Home</a>
+{% endblock %}

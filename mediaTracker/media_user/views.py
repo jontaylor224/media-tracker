@@ -6,8 +6,10 @@ from django.views.generic import DetailView
 from .models import MediaUser
 from .forms import UserForm
 
+
 class UserDetailView(DetailView):
     model = MediaUser
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
@@ -22,7 +24,7 @@ def add_user(request):
             user_form = UserForm(request.POST)
             if user_form.is_valid():
                 user_data = user_form.cleaned_data
-                username = user_data.get("username"),
+                username = user_data.get("username")
                 password1 = user_data.get("password1")
                 password2 = user_data.get("password2")
                 if password1 == password2:
@@ -38,4 +40,4 @@ def add_user(request):
                 return HttpResponseRedirect('/')
         else:
             user_form = UserForm()
-        return render(request, 'add_user.html', {'form':user_form})
+    return render(request, 'add_user.html', {'form': user_form})

@@ -1,0 +1,23 @@
+body {
+    background-color: burlywood;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Crimson Text', serif;
+}
+
+p, a {
+    font-family: 'Hind Siliguri', sans-serif;
+}
+
+img {
+    height: 30px;
+}
+
+.button {
+    background-color: firebrick;
+    color: bisque;
+    border-radius: 10%;
+    padding: 1px 5px;
+    text-decoration: none;
+}

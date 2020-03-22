@@ -1,10 +1,16 @@
+{% extends './base.html' %}
+{% load static %}
+{% block content %}
+
 
 <h3>Search results for {{data.ISBN}}</h3>
+<form action="">
+    {% csrf_token %}
+    {{form.as_p}}
 
-<img src="{{ results.coverThumbURL }}" alt="book cover" />
-<br />
-<h3>{{results.title}}</h3>
-<h4>{{results.author1}}</h4>
-<p>{{results.pubDate}}</p>
+    <input type="submit" value="Add to collection?">
+</form>
+
 
 <a href="/">Home</a>
+{% endblock %}

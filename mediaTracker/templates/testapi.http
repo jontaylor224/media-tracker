@@ -8,6 +8,18 @@ GET https://openlibrary.org/api/books?bibkeys=isbn:9780451470041&jscmd=data&form
 
 ###
 
-GET https://openlibrary.org/api/books?bibkeys=isbn:9780451470041&jscmd=data&format=json HTTP/1.1
+GET https://openlibrary.org/api/books?bibkeys=isbn:9780399148705&jscmd=data&format=json HTTP/1.1
+
+###
+
+GET https://openlibrary.org/api/books?bibkeys=isbn:0425062600&jscmd=data&format=json HTTP/1.1
+
+###
+
+GET https://openlibrary.org/api/books?bibkeys=isbn:&jscmd=data&format=json HTTP/1.1
+
+###
+
+GET https://openlibrary.org/api/books?bibkeys=isbn:9780975941232&jscmd=data&format=json HTTP/1.1
 
 ###
