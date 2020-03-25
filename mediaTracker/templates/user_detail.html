@@ -1,7 +1,7 @@
-{% extends 'index.html' %}
+{% extends 'base.html' %}
 
 
-{% block user_detail %}
-    <h2>Username: {{  media_user.user.name }}</h2>
-    <h4>Email: {{ media_user.email }}</h4>
-{% endblock user_detail %}
+{% block content %}
+    <h2>Username: {{  object.user.username }}</h2>
+    <h4>Email: {{ object.email }}</h4>
+{% endblock content %}

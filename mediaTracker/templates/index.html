@@ -1,9 +1,14 @@
 {% extends './base.html' %}
 {% load static %}
-{% block content %}
+
+{% block welcome %}
 
 <h2>Welcome {{ user.username }}!</h2>
 <p>You have {{ num_of_books }} books in your collection.</p>
+
+{% endblock welcome %}
+
+{% block content %}
 
 <a href="{% url 'search' %}" class="button">Search by ISBN</a>
 

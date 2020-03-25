@@ -9,7 +9,7 @@ from .forms import UserForm
 
 class UserDetailView(DetailView):
     model = MediaUser
-
+    template_name = 'user_detail.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
@@ -41,3 +41,8 @@ def add_user(request):
         else:
             user_form = UserForm()
     return render(request, 'add_user.html', {'form': user_form})
+
+@login_required
+def all_users_view(request):
+    user_list = MediaUser.objects.all()
+    return render(request, 'all_users.html', {'user_list': user_list})
