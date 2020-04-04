@@ -50,9 +50,7 @@ def all_users_view(request):
 
 
 class UserCollectionView(ListView):
+    model = Book
     template_name = 'collection.html'
     context_object_name = 'collection'
-    queryset = Book.objects.prefetch_related('collection')
-    # def get_queryset(self):
-    #     collection = self.request.user.mediauser.collection.all()
-    #     return collection
+    ordering = ['author']
