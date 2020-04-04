@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
-{% load static %}
-
 
 {% block content %}
 
 <h2>Users list:</h2>
 
+{% if user_list %}
 <ul>
     {% for user in user_list %}
     <li><a href="{% url 'user_detail' user.pk %}">{{user}}</a></li>
     {% endfor %}
 </ul>
+{% else %}
+<h3>There are currently no users found.</h3>
+{% endif %}
 
 {% endblock content %}

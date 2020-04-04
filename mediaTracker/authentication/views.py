@@ -13,8 +13,11 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        collection = Book.objects.filter(collection__user = self.request.user)
-        context['num_of_books'] = len(collection)
+        if hasattr(self.request.user, 'mediauser'):
+            context['num_of_books'] = \
+                self.request.user.mediauser.collection.count()
+        else:
+            context['num_of_books'] = 0
         return context
 
 

@@ -4,7 +4,10 @@
 {% block welcome %}
 
 <h2>Welcome {{ user.username }}!</h2>
+
+{% if user.mediauser %}
 <p>You have {{ num_of_books }} books in your collection.</p>
+{% endif %}
 
 {% endblock welcome %}
 

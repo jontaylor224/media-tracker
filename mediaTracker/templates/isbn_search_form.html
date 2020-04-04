@@ -1,5 +1,4 @@
 {% extends './base.html' %}
-{% load static %}
 {% block content %}
 
 <h3>Search for book information by ISBN</h3>
@@ -8,6 +7,4 @@
     {{ form.as_p }}
     <input type="submit" value="Search" class="button" />
 </form>
-<br>
-<a href="/" class="button">Return Home</a>
 {% endblock %}

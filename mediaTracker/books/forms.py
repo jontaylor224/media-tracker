@@ -9,5 +9,5 @@ class ISBNSearch(forms.Form):
 class BookEditForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['ISBN', 'title', 'author',
-                  'publisher', 'pubDate', 'description', 'collection']
+        fields = ['ISBN_13', 'ISBN_10', 'title', 'author',
+                  'publisher', 'pubDate', 'description', 'coverThumbURL']

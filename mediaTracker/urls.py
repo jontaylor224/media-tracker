@@ -29,6 +29,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-urlpatterns += auth_urls
 urlpatterns += book_urls
 urlpatterns += user_urls
+urlpatterns += auth_urls

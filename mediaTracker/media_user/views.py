@@ -1,10 +1,11 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render, reverse, HttpResponseRedirect
-from django.views.generic import DetailView
+from django.shortcuts import (render, reverse, HttpResponseRedirect, get_object_or_404)
+from django.views.generic import DetailView, ListView
 from .models import MediaUser
 from .forms import UserForm
+from mediaTracker.books.models import Book
 
 
 class UserDetailView(DetailView):
@@ -46,3 +47,12 @@ def add_user(request):
 def all_users_view(request):
     user_list = MediaUser.objects.all()
     return render(request, 'all_users.html', {'user_list': user_list})
+
+
+class UserCollectionView(ListView):
+    template_name = 'collection.html'
+    context_object_name = 'collection'
+    queryset = Book.objects.prefetch_related('collection')
+    # def get_queryset(self):
+    #     collection = self.request.user.mediauser.collection.all()
+    #     return collection
