@@ -6,15 +6,15 @@
     {% if collection|length > 0 %}
         <ul>
             {% for title in collection %}
-                {% if title.ISBN_13 %}
+                <!-- {% if title.ISBN_13 %} -->
                 <li>
-                    <a href="{% url 'book_detail' title.ISBN_13 %}">{{title}}</a>
+                    <a href="{% url 'book_detail' title.pk %}">{{title}}</a>
                 </li>
-                {% else %}
+                <!-- {% else %}
                 <li>
-                    <a href="{% url 'book_detail' title.ISBN_10 %}">{{title}}</a>
+                    <a href="{% url 'book_detail' title.pk %}">{{title}}</a>
                 </li>
-                {% endif %}
+                {% endif %} -->
             {% endfor %}
         </ul>
     {% else %}

@@ -4,7 +4,12 @@
 
 <h3>book added to Collection</h3>
 
+{% if book.coverThumbURL %}
 <img src="{{ book.coverThumbURL }}" alt="book cover" />
+{% else %}
+<img src="/static/images/default_book_cover.jpg" alt="book cover" />
+{% endif %}
+
 <br />
 <h3>{{book.title}}</h3>
 <h4>{{book.author}}</h4>

@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.views import View
+from django.views.generic import DetailView
 from django.shortcuts import render, HttpResponseRedirect
 import requests
 
@@ -68,18 +69,23 @@ class BookSearchResultView(View):
                             try:
                                 myBook.pubDate = datetime.strptime(
                                     json_data[volumeInfo]['publish_date'], '%b %d, %Y')
-                            except KeyError:
-                                myBook.pubDate = None
+                            except ValueError:
+                                try:
+                                    myBook.pubDate = datetime.strptime(
+                                        json_data[volumeInfo]['publish_date'], '%Y')
+                                except KeyError:
+                                    myBook.pubDate = None
                         try:
                             myBook.coverThumbURL = json_data[volumeInfo]['cover']['medium']
                         except KeyError:
-                            myBook.coverThumbURL = 'static/images/default_book_cover.jpg'
+                            myBook.coverThumbURL = None
                         try:
                             myBook.description = json_data[volumeInfo]['excerpts'][0]['text']
                         except KeyError:
                             myBook.description = 'No description available'
             form = BookEditForm(instance=myBook)
-        return render(request, self.template_name, {'data': data, 'form': form})
+            coverURL = myBook.coverThumbURL
+        return render(request, self.template_name, {'data': data, 'form': form, 'coverURL': coverURL})
 
     def post(self, request, *args, **kwargs):
         form = BookEditForm(request.POST)
@@ -90,7 +96,7 @@ class BookSearchResultView(View):
         return render(request, 'book_added.html', {'book': current_book})
 
 
-class BookDetailView(View):
+class BookDetailView(DetailView):
     model = Book
     template_name = 'book_detail.html'
 

@@ -11,6 +11,10 @@ p, a {
 }
 
 img {
+    height: 200px;
+}
+
+.icon {
     height: 30px;
 }
 

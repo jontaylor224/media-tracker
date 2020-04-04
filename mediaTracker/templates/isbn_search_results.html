@@ -3,7 +3,11 @@
 
 
 <h3>Search results for {{data.ISBN}}</h3>
-<img src="{{ form.coverthumbURL }}" alt="book cover thumbnail">
+{% if book.coverThumbURL %}
+<img src="{{ book.coverThumbURL }}" alt="book cover" />
+{% else %}
+<img src="/static/images/default_book_cover.jpg" alt="book cover" />
+{% endif %}
 <form action="" method="POST">
     {% csrf_token %}
     {{form.as_p}}
