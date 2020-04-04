@@ -13,14 +13,16 @@
     <h1>Media Tracker <img src="{% static '/images/Book.png' %}" alt="book icon" class="icon"></h1>
     <a href="/" class="button">Home</a>
     {% if user.is_staff %}
-    <a href="{% url 'all_users' %}" class="button">All Users</a>
-    <a href="{% url 'add_user' %}" class="button">Add User</a>
+        <a href="{% url 'all_users' %}" class="button">All Users</a>
+        <a href="{% url 'add_user' %}" class="button">Add User</a>
     {% endif %}
     {% if user.is_authenticated %}
-    <a href="{% url 'user_detail' pk=user.pk %}" class="button">Profile</a>
-    <a href="{% url 'collection' %}" class="button">My Collection</a>
-    <a href="{% url 'logout' %}" class="button">Logout</a>
-    <br />
+            {% if not user.is_staff %}
+                <a href="{% url 'user_detail' pk=user.pk %}" class="button">Profile</a>
+                <a href="{% url 'collection' %}" class="button">My Collection</a>
+            {% endif %}
+        <a href="{% url 'logout' %}" class="button">Logout</a>
+        <br />
     {% endif %}
     <br>
     <hr>
