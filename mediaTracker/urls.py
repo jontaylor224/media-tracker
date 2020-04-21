@@ -13,11 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from mediaTracker.authentication.urls import urlpatterns as auth_urls
 from mediaTracker.books.urls import urlpatterns as book_urls
 from mediaTracker.media_user.urls import urlpatterns as user_urls
+from mediaTracker import settings
 
 from mediaTracker.books.models import Book
 from mediaTracker.media_user.models import MediaUser
@@ -32,3 +34,7 @@ urlpatterns = [
 urlpatterns += book_urls
 urlpatterns += user_urls
 urlpatterns += auth_urls
+
+# FOR DEVELOPMENT ONLY, NOT SAFE FOR PRODUCTION
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
