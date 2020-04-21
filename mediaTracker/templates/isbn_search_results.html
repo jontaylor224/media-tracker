@@ -3,8 +3,8 @@
 
 
 <h3>Search results for {{data.ISBN}}</h3>
-{% if book.coverThumbURL %}
-<img src="{{ book.coverThumbURL }}" alt="book cover" />
+{% if coverURL %}
+<img src="{{ coverURL }}" alt="book cover" />
 {% else %}
 <img src="/static/images/default_book_cover.jpg" alt="book cover" />
 {% endif %}
