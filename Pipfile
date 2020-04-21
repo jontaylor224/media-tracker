@@ -9,6 +9,9 @@ verify_ssl = true
 python-decouple = "*"
 django = "*"
 requests = "*"
+pytest = "*"
+pytest-django = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.8"

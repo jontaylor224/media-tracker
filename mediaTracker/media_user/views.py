@@ -53,4 +53,5 @@ class UserCollectionView(ListView):
     model = Book
     template_name = 'collection.html'
     context_object_name = 'collection'
-    ordering = ['author']
+    def get_queryset(self):
+        return self.request.user.mediauser.collection.all().order_by('author')

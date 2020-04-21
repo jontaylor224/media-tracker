@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.views import View
 from django.views.generic import DetailView
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, reverse
 import requests
 
 from .forms import ISBNSearch, BookEditForm
@@ -22,74 +22,25 @@ class BookSearchResultView(View):
 
     def get(self, request, *args, **kwargs):
         form = ISBNSearch(request.GET)
+        myBook = None
+        built_book = None
         if form.is_valid():
             data = form.cleaned_data
-            try:
-                myBook = Book.objects.get(ISBN_13=data['ISBN'])
-            except Book.DoesNotExist:
-                try:
-                    myBook = Book.objects.get(ISBN_10=data['ISBN'])
-                except Book.DoesNotExist:
-                    # raise Exception()
-                    url = 'https://openlibrary.org/api/books?bibkeys=isbn:' + \
-                        data['ISBN'] + '&jscmd=data&format=json'
-                    req_data = requests.get(url)
-                    req_status = req_data.status_code
-                    if req_status == 403:
-                        return render(request, '403.html')
-                    json_data = req_data.json()
-                    if json_data == {}:
-                        return render(request, 'no_book_found.html')
-                    else:
-                        volumeInfo = 'isbn:'+data['ISBN']
-
-                        myBook = Book()
-                        try:
-                            myBook.ISBN_13 = json_data[volumeInfo]['identifiers']['isbn_13'][0]
-                        except KeyError:
-                            myBook.ISBN_13 = None
-                            try:
-                                myBook.ISBN_10 = json_data[volumeInfo]['identifiers']['isbn_10'][0]
-                            except KeyError:
-                                return render(request, 'no_book_found.html')
-                        myBook.title = json_data[volumeInfo].get(
-                            'title', 'no title available')
-                        try:
-                            myBook.author = json_data[volumeInfo]['authors'][0]['name']
-                        except KeyError:
-                            myBook.author = "no author available"
-                        try:
-                            myBook.publisher = json_data[volumeInfo]['publishers'][0]['name']
-                        except KeyError:
-                            myBook.author = "no publisher available"
-                        try:
-                            myBook.pubDate = datetime.strptime(
-                                json_data[volumeInfo]['publish_date'], '%B %Y')
-                        except ValueError:
-                            try:
-                                myBook.pubDate = datetime.strptime(
-                                    json_data[volumeInfo]['publish_date'], '%b %d, %Y')
-                            except ValueError:
-                                try:
-                                    myBook.pubDate = datetime.strptime(
-                                        json_data[volumeInfo]['publish_date'], '%Y')
-                                except KeyError:
-                                    myBook.pubDate = None
-                        try:
-                            myBook.coverThumbURL = json_data[volumeInfo]['cover']['medium']
-                        except KeyError:
-                            myBook.coverThumbURL = None
-                        try:
-                            myBook.description = json_data[volumeInfo]['excerpts'][0]['text']
-                        except KeyError:
-                            myBook.description = 'No description available'
-            form = BookEditForm(instance=myBook)
-            coverURL = myBook.coverThumbURL
+            myBook = Book.objects.filter(ISBN_13=data['ISBN']).first()
+            if not myBook:
+                myBook = Book.objects.filter(ISBN_10=data['ISBN']).first()
+            if myBook:
+                # found book in database
+                return HttpResponseRedirect(reverse('book_detail', args=[myBook.pk]))
+            else:
+                # book not found in database by ISBN13 or ISBN10
+                built_book = create_book(data['ISBN'])
+            coverURL = built_book.coverThumbURL
+            form = BookEditForm(instance=built_book)
         return render(request, self.template_name, {'data': data, 'form': form, 'coverURL': coverURL})
 
     def post(self, request, *args, **kwargs):
         form = BookEditForm(request.POST)
-        # breakpoint()
         current_book = form.save()
         request.user.mediauser.collection.add(current_book)
 
@@ -103,3 +54,79 @@ class BookDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+# helper functions - to move to separate file at later date
+def create_book(isbn: str) -> Book:
+    req_data = get_book_data_from_api(isbn)
+    json_data = process_api_response(req_data)
+    return Book.objects.create(**json_data)
+
+
+def get_book_data_from_api(isbn_str):
+    url = 'https://openlibrary.org/api/books?bibkeys=isbn:' + \
+        isbn_str + '&jscmd=data&format=json'
+    response_data = requests.get(url)
+    if response_data.status_code == 403:
+        return render(request, '403.html')
+    else:
+        return response_data
+
+
+def process_api_response(response_data):
+
+    json_data = response_data.json()
+    if json_data == {}:
+        return render(request, 'no_book_found.html')
+    else:
+        volumeInfo = next(iter(json_data))
+        book_json = {}
+        try:
+            book_json['ISBN_13'] = json_data[volumeInfo]['identifiers']['isbn_13'][0]
+        except KeyError:
+            book_json['ISBN_13'] = None
+
+        try:
+            book_json['ISBN_10'] = json_data[volumeInfo]['identifiers']['isbn_10'][0]
+        except KeyError:
+            book_json['ISBN_10'] = None
+
+        book_json['title'] = json_data[volumeInfo].get(
+            'title', 'no title available')
+
+        try:
+            book_json['author'] = json_data[volumeInfo]['authors'][0]['name']
+        except KeyError:
+            book_json['author'] = "no author available"
+
+        try:
+            book_json['publisher'] = json_data[volumeInfo]['publishers'][0]['name']
+        except KeyError:
+            book_json['publisher'] = "no publisher available"
+
+        try:
+            book_json['pubDate'] = datetime.strptime(
+                json_data[volumeInfo]['publish_date'], '%B %Y')
+        except ValueError:
+            try:
+                book_json['pubDate'] = datetime.strptime(
+                    json_data[volumeInfo]['publish_date'], '%b %d, %Y')
+            except ValueError:
+                try:
+                    book_json['pubDate'] = datetime.strptime(
+                        json_data[volumeInfo]['publish_date'], '%Y')
+                except ValueError:
+                    book_json['pubDate'] = None
+        except KeyError:
+            book_json['pubDate'] = None
+
+        try:
+            book_json['coverThumbURL'] = json_data[volumeInfo]['cover']['medium']
+        except KeyError:
+            book_json['coverThumbURL'] = None
+
+        try:
+            book_json['description'] = json_data[volumeInfo]['excerpts'][0]['text']
+        except KeyError:
+            book_json['description'] = 'No description available'
+
+        return book_json
