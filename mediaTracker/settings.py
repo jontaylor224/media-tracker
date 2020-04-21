@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = config('DEBUG', default=False, cast=bool)
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['localhost']
@@ -127,6 +127,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'mediaTracker/static'),
-    )
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_deploy')
+)
+STATIC_ROOT = os.path.join(BASE_DIR, 'mediaTracker/static_deploy')
 

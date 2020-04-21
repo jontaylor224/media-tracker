@@ -124,3 +124,6 @@ dmypy.json
 .vscode/
 .DS_Store
 .env
+.venv/
+.idea/
+static_deploy/
