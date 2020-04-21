@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+<h2 class="banner">Book exists in database</h2>
+<br>
 
 {% if book.coverThumbURL %}
 <img src="{{ book.coverThumbURL }}" alt="book cover" />

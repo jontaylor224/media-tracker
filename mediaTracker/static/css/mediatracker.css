@@ -25,3 +25,7 @@ img {
     padding: 1px 5px;
     text-decoration: none;
 }
+
+.banner {
+    color: firebrick;
+}

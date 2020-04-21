@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
-<h3>book added to Collection</h3>
+<h2 class="banner">Book added to Collection</h2>
+<br>
 
 {% if book.coverThumbURL %}
 <img src="{{ book.coverThumbURL }}" alt="book cover" />
