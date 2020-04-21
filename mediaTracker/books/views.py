@@ -30,10 +30,12 @@ class BookSearchResultView(View):
             if not myBook:
                 myBook = Book.objects.filter(ISBN_10=data['ISBN']).first()
             if myBook:
-                # found book in database
-                return HttpResponseRedirect(reverse('book_detail', args=[myBook.pk]))
+                if not request.user.mediauser.collection.filter(id=myBook.id).exists():
+                    return render(request, self.template_name, {'data': data, 'form': BookEditForm(instance=myBook), 'coverURL': myBook.coverThumbURL})
+                else:
+                    return HttpResponseRedirect(reverse('book_detail', args=[myBook.pk]))
             else:
-                # book not found in database by ISBN13 or ISBN10
+                # ISBN not found in database
                 built_book = create_book(data['ISBN'])
             coverURL = built_book.coverThumbURL
             form = BookEditForm(instance=built_book)
@@ -54,6 +56,7 @@ class BookDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
 
 # helper functions - to move to separate file at later date
 def create_book(isbn: str) -> Book:
