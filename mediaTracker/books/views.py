@@ -8,6 +8,19 @@ from .forms import ISBNSearch, BookEditForm
 from .models import Book
 from mediaTracker.media_user.models import MediaUser
 
+class APIException(Exception):
+    pass
+
+
+class NoDataException(Exception):
+    pass
+
+class NoBookException(Exception):
+    pass
+
+class APIException(Exception):
+    pass
+
 
 class BookSearchView(View):
     template_name = 'isbn_search_form.html'
@@ -36,7 +49,10 @@ class BookSearchResultView(View):
                     return HttpResponseRedirect(reverse('book_detail', args=[myBook.pk]))
             else:
                 # ISBN not found in database
-                built_book = create_book(data['ISBN'])
+                try:
+                    built_book = create_book(data['ISBN'])
+                except NoDataException:
+                    return render(request, 'no_book_found.html')
             coverURL = built_book.coverThumbURL
             form = BookEditForm(instance=built_book)
         return render(request, self.template_name, {'data': data, 'form': form, 'coverURL': coverURL})
@@ -60,7 +76,10 @@ class BookDetailView(DetailView):
 
 # helper functions - to move to separate file at later date
 def create_book(isbn: str) -> Book:
-    req_data = get_book_data_from_api(isbn)
+    try:
+        req_data = get_book_data_from_api(isbn)
+    except APIException:
+        return render(request, '403.html')
     json_data = process_api_response(req_data)
     return Book.objects.create(**json_data)
 
@@ -70,7 +89,7 @@ def get_book_data_from_api(isbn_str):
         isbn_str + '&jscmd=data&format=json'
     response_data = requests.get(url)
     if response_data.status_code == 403:
-        return render(request, '403.html')
+        raise APIException("Too Many Requests")
     else:
         return response_data
 
@@ -79,7 +98,8 @@ def process_api_response(response_data):
 
     json_data = response_data.json()
     if json_data == {}:
-        return render(request, 'no_book_found.html')
+        raise NoDataException('No Book Data Found')
+
     else:
         volumeInfo = next(iter(json_data))
         book_json = {}
