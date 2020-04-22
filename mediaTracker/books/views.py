@@ -15,6 +15,13 @@ class APIException(Exception):
 class NoDataException(Exception):
     pass
 
+class NoBookException(Exception):
+    pass
+
+class APIException(Exception):
+    pass
+
+
 class BookSearchView(View):
     template_name = 'isbn_search_form.html'
 
