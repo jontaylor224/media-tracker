@@ -8,17 +8,12 @@ from .forms import ISBNSearch, BookEditForm
 from .models import Book
 from mediaTracker.media_user.models import MediaUser
 
+
 class APIException(Exception):
     pass
 
 
 class NoDataException(Exception):
-    pass
-
-class NoBookException(Exception):
-    pass
-
-class APIException(Exception):
     pass
 
 
