@@ -5,6 +5,7 @@
 <form action="/search_results/" method="get">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Search" class="button" />
+    <input type="submit" value="Search" class="button formButton" />
+    <a href="/" class="button">Cancel</a>
 </form>
 {% endblock %}

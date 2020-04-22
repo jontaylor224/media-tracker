@@ -13,6 +13,12 @@
 
 {% block content %}
 
+{% if not user.is_superuser %}
+
+<p>To check if a book is in your collection or add a book to your collection, search by ISBN using the button below.</p>
+
 <a href="{% url 'search' %}" class="button">Search by ISBN</a>
+
+{% endif %}
 
 {% endblock content %}

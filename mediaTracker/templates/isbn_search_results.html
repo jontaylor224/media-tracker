@@ -12,7 +12,8 @@
     {% csrf_token %}
     {{form.as_p}}
 
-    <input type="submit" value="Add to collection?">
+    <input type="submit" value="Add to collection" class="button formButton">
+    <a href="/" class="button">Cancel</a>
 </form>
 
 {% endblock %}
