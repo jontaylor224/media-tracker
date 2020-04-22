@@ -23,11 +23,18 @@ img {
 .button {
     background-color: firebrick;
     color: bisque;
-    border-radius: 10%;
+    border-radius: 10px;
     padding: 1px 5px;
     text-decoration: none;
 }
 
 .banner {
     color: firebrick;
+}
+
+.formButton {
+    padding: 1px 5px;
+    margin: 0 3px;
+    font-size: 1em;
+    font-family: 'Hind Siliguri', sans-serif;
 }
