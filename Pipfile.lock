@@ -22,7 +22,9 @@
                 "sha256:ffc141aa908e6f175673e7b1b3b7af4fdb0ecb738fc5c8b88f69f055c2415214"
             ],
             "markers": "python_version >= '3.6'",
+
             "version": "==3.4.1"
+
         },
         "attrs": {
             "hashes": [
@@ -106,11 +108,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:9bc7aa619ed878fedba62ce139abe663a147dccfd20e907725ec11e02a1ca225",
-                "sha256:d58d8394036db75a81896037d757357e79406e8f68816c3e8a28721c1d9d4c11"
+                "sha256:a523d62b7ab2908f551dabc32b99017a86aa7784e32b761708e52be3dce6d35d",
+                "sha256:dc41bf07357f1f4810c1c555b685cb51f780b41e37892d6cc92b89789f2847e1"
             ],
             "index": "pypi",
-            "version": "==3.0.14"
+            "version": "==3.1.12"
         },
         "idna": {
             "hashes": [
@@ -122,19 +124,23 @@
         },
         "more-itertools": {
             "hashes": [
+
                 "sha256:70401259e46e216056367a0a6034ee3d3f95e0bf59d3aa6a4eb77837171ed996",
                 "sha256:8c746e0d09871661520da4f1241ba6b908dc903839733c8203b552cffaf173bd"
             ],
             "markers": "python_version >= '3.5'",
             "version": "==8.9.0"
+
         },
         "packaging": {
             "hashes": [
                 "sha256:7dc96269f53a4ccec5c0670940a4281106dd0bb343f47b7471f779df49c2fbe7",
                 "sha256:c86254f9220d55e31cc94d69bade760f0847da8000def4dfe1c6b872fd14ff14"
             ],
+
             "markers": "python_version >= '3.6'",
             "version": "==21.0"
+
         },
         "pluggy": {
             "hashes": [
@@ -212,8 +218,10 @@
                 "sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae",
                 "sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d"
             ],
+
             "index": "pypi",
             "version": "==0.4.2"
+
         },
         "urllib3": {
             "hashes": [
